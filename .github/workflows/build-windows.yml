@@ -1,0 +1,43 @@
+name: Windows Build
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: microsoft/setup-msbuild@v1
+    - uses: ilammy/setup-nasm@v1
+    - uses: actions/checkout@v2
+
+    - name: Setup Rust
+      run: |
+        rustup default stable-x86_64-pc-windows-msvc
+        rustc -vV
+        cargo -vV
+    - name: Get submodules
+      run: git submodule update --init --recursive
+    - name: Build all external libraries statically
+      run: |
+        cd ext
+        aom.cmd
+        dav1d.cmd
+        rav1e.cmd
+        libjpeg.cmd
+        zlibpng.cmd
+        cd ..
+    - name: Configure with CMake
+      run: |
+        mkdir build
+        cd build
+        cmake --version
+        cmake .. -DAVIF_CODEC_AOM=ON -DAVIF_LOCAL_AOM=ON -DAVIF_CODEC_DAV1D=ON -DAVIF_LOCAL_DAV1D=ON -DAVIF_CODEC_RAV1E=ON -DAVIF_LOCAL_RAV1E=ON -DBUILD_SHARED_LIBS=ON -DAVIF_LOCAL_JPEG=1 -DAVIF_LOCAL_ZLIBPNG=1 -DAVIF_BUILD_APPS=ON
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration="Release|x64" build\libavif.sln
+    - uses: actions/upload-artifact@v2
+      with:
+         name: artifacts
+         path: build\Release
