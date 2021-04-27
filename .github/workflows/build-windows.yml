@@ -38,7 +38,7 @@ jobs:
     - name: Build libraries
       run: |
         cd ext
-        .\aom.cmd
+        #.\aom.cmd
         #.\dav1d.cmd
         #.\rav1e.cmd
         .\libjpeg.cmd
@@ -50,7 +50,7 @@ jobs:
         cd build
         cmake --version
         cmake .. `
-          -DAVIF_CODEC_AOM=ON `
+          -DAVIF_CODEC_AOM=OFF `
           -DAVIF_LOCAL_AOM=ON `
           -DAVIF_CODEC_DAV1D=OFF `
           -DAVIF_LOCAL_DAV1D=ON `
@@ -60,9 +60,11 @@ jobs:
           -DAVIF_LOCAL_ZLIBPNG=1 `
           -DBUILD_SHARED_LIBS=ON `
           -DAVIF_BUILD_APPS=ON
-    #- name: Build
-    #  working-directory: ${{env.GITHUB_WORKSPACE}}
-    #  run: devenv build\libavif.sln /build Release
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: |
+        cd build
+        msbuild /m /p:Configuration="Release" libavif.sln
     - uses: actions/upload-artifact@v2
       with:
          name: build
