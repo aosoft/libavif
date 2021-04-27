@@ -18,7 +18,7 @@ jobs:
         ninja --version
         nasm --version
     - name: Setup Visual Studio 2019
-      run: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+      run: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
     - name: Setup Rust
       run: |
         rustup default stable-x86_64-pc-windows-msvc
