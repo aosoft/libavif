@@ -64,7 +64,8 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: |
         cd build
-        msbuild /m /p:Configuration="Release" /v:diag libavif.sln
+        pwd
+        msbuild /m /p:Configuration="Release" /v:d libavif.sln
     - uses: actions/upload-artifact@v2
       with:
          name: build
