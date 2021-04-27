@@ -61,7 +61,7 @@ jobs:
           -DAVIF_BUILD_APPS=ON
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: devenv /p:Configuration="Release" build\libavif.sln
+      run: devenv build\libavif.sln /p:Configuration="Release"
     - uses: actions/upload-artifact@v2
       with:
          name: build
