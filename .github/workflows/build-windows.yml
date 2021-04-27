@@ -18,7 +18,13 @@ jobs:
         ninja --version
         nasm --version
     - name: Setup Visual Studio 2019
-      run: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+      run: |
+        cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat`" && set > %temp%\vcvars.txt"
+        Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
+          if ($_ -match "^(.*?)=(.*)$") {
+            Set-Content "env:\$($matches[1])" $matches[2]
+          }
+        }
     - name: Setup Rust
       run: |
         rustup default stable-x86_64-pc-windows-msvc
