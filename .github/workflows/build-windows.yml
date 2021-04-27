@@ -13,6 +13,7 @@ jobs:
     - uses: ilammy/setup-nasm@v1
     - uses: seanmiddleditch/gha-setup-ninja@master
     - name: Check
+      run: |
         $env:path
         ninja --version
         nasm --version
