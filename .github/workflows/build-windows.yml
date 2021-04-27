@@ -12,12 +12,10 @@ jobs:
     - uses: microsoft/setup-msbuild@v1
     - uses: ilammy/setup-nasm@v1
     - uses: seanmiddleditch/gha-setup-ninja@master
-
     - name: Check
         $env:path
         ninja --version
         nasm --version
-
     - name: Setup Rust
       run: |
         rustup default stable-x86_64-pc-windows-msvc
