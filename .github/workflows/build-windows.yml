@@ -18,10 +18,12 @@ jobs:
         rustup default stable-x86_64-pc-windows-msvc
         rustc -vV
         cargo -vV
+        ninja --version
     - name: Get submodules
       run: git submodule update --init --recursive
     - name: Build libraries
       run: |
+        ninja --version
         cd ext
         .\aom.cmd
         #.\dav1d.cmd
