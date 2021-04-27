@@ -22,11 +22,11 @@ jobs:
     - name: Build all external libraries statically
       run: |
         cd ext
-        aom.cmd
-        dav1d.cmd
-        rav1e.cmd
-        libjpeg.cmd
-        zlibpng.cmd
+        .\aom.cmd
+        .\dav1d.cmd
+        .\rav1e.cmd
+        .\libjpeg.cmd
+        .\zlibpng.cmd
         cd ..
     - name: Configure with CMake
       run: |
