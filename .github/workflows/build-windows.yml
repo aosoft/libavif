@@ -23,6 +23,7 @@ jobs:
     - name: Build all external libraries statically
       run: |
         cd ext
+        ninja --version
         .\aom.cmd
         #.\dav1d.cmd
         #.\rav1e.cmd
