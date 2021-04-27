@@ -34,6 +34,7 @@ jobs:
       run: git submodule update --init --recursive
     - name: Build libraries
       run: |
+        cd ext
         .\aom.cmd
         #.\dav1d.cmd
         #.\rav1e.cmd
