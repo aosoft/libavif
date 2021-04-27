@@ -10,18 +10,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     #- uses: microsoft/setup-msbuild@v1
+    - uses: ilammy/msvc-dev-cmd@v1
     - uses: ilammy/setup-nasm@v1
     - uses: seanmiddleditch/gha-setup-ninja@master
-    - name: Setup Visual Studio 2019
-      run: |
-        cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat`" && set > %temp%\vcvars.txt"
-        Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
-          if ($_ -match "^(.*?)=(.*)$") {
-            $key=$matches[1].ToString()
-            $value=$matches[2].ToString()
-            echo "$key=$value" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-          }
-        }
+    #- name: Setup Visual Studio 2019
+    #  run: |
+    #    cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat`" && set > %temp%\vcvars.txt"
+    #    Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
+    #      if ($_ -match "^(.*?)=(.*)$") {
+    #        $key=$matches[1].ToString()
+    #        $value=$matches[2].ToString()
+    #        echo "$key=$value" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+    #      }
+    #    }
     - name: Setup Rust
       run: |
         rustup default stable-x86_64-pc-windows-msvc
@@ -37,7 +38,7 @@ jobs:
     - name: Build libraries
       run: |
         cd ext
-        #.\aom.cmd
+        .\aom.cmd
         #.\dav1d.cmd
         #.\rav1e.cmd
         .\libjpeg.cmd
@@ -49,7 +50,7 @@ jobs:
         cd build
         cmake --version
         cmake .. `
-          -DAVIF_CODEC_AOM=OFF `
+          -DAVIF_CODEC_AOM=ON `
           -DAVIF_LOCAL_AOM=ON `
           -DAVIF_CODEC_DAV1D=OFF `
           -DAVIF_LOCAL_DAV1D=ON `
