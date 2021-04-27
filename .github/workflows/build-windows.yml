@@ -23,7 +23,9 @@ jobs:
       run: git submodule update --init --recursive
     - name: Build libraries
       run: |
+        $env:path
         ninja --version
+        nasm --version
         cd ext
         .\aom.cmd
         #.\dav1d.cmd
