@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: microsoft/setup-msbuild@v1
+    #- uses: microsoft/setup-msbuild@v1
     - uses: ilammy/setup-nasm@v1
     - uses: seanmiddleditch/gha-setup-ninja@master
     - name: Check
@@ -17,6 +17,8 @@ jobs:
         $env:path
         ninja --version
         nasm --version
+    - name: Setup Visual Studio 2019
+      run: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
     - name: Setup Rust
       run: |
         rustup default stable-x86_64-pc-windows-msvc
@@ -24,19 +26,9 @@ jobs:
         cargo -vV
     - name: Get submodules
       run: git submodule update --init --recursive
-    - name: Build aom
-      run: |
-        cd ext
-        git clone -b v3.0.0 --depth 1 https://aomedia.googlesource.com/aom
-        cd aom
-        mkdir build.libavif
-        cd build.libavif
-        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DENABLE_DOCS=0 -DENABLE_EXAMPLES=0 -DENABLE_TESTDATA=0 -DENABLE_TESTS=0 -DENABLE_TOOLS=0 ..
-        ninja
-        cd ../..      
     - name: Build libraries
       run: |
-        #.\aom.cmd
+        .\aom.cmd
         #.\dav1d.cmd
         #.\rav1e.cmd
         .\libjpeg.cmd
