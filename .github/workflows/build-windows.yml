@@ -67,14 +67,17 @@ jobs:
         pwd
         msbuild /m /p:Configuration="Release" /v:d libavif.sln
     - uses: actions/upload-artifact@v2
+      if: always()
       with:
          name: build
          path: build/Release
     - uses: actions/upload-artifact@v2
+      if: always()
       with:
          name: ext
          path: build/ext
     - uses: actions/upload-artifact@v2
+      if: always()
       with:
          name: log
          path: |
