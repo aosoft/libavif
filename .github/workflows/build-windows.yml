@@ -38,9 +38,9 @@ jobs:
     - name: Build libraries
       run: |
         cd ext
-        #.\aom.cmd
+        .\aom.cmd
         #.\dav1d.cmd
-        #.\rav1e.cmd
+        .\rav1e.cmd
         .\libjpeg.cmd
         .\zlibpng.cmd
         cd ..
@@ -50,15 +50,15 @@ jobs:
         cd build
         cmake --version
         cmake .. `
-          -DAVIF_CODEC_AOM=OFF `
+          -DAVIF_CODEC_AOM=ON `
           -DAVIF_LOCAL_AOM=ON `
           -DAVIF_CODEC_DAV1D=OFF `
           -DAVIF_LOCAL_DAV1D=ON `
-          -DAVIF_CODEC_RAV1E=OFF `
+          -DAVIF_CODEC_RAV1E=ON `
           -DAVIF_LOCAL_RAV1E=ON `
           -DAVIF_LOCAL_JPEG=1 `
           -DAVIF_LOCAL_ZLIBPNG=1 `
-          -DBUILD_SHARED_LIBS=ON `
+          -DBUILD_SHARED_LIBS=OFF `
           -DAVIF_BUILD_APPS=ON
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -71,11 +71,11 @@ jobs:
       with:
          name: build
          path: build/Release
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-         name: ext
-         path: build/ext
+    #- uses: actions/upload-artifact@v2
+    #  if: always()
+    #  with:
+    #     name: ext
+    #     path: build/ext
     - uses: actions/upload-artifact@v2
       if: always()
       with:
