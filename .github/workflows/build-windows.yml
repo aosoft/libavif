@@ -56,10 +56,10 @@ jobs:
           -DAVIF_LOCAL_DAV1D=ON `
           -DAVIF_CODEC_RAV1E=ON `
           -DAVIF_LOCAL_RAV1E=ON `
-          -DAVIF_LOCAL_JPEG=1 `
-          -DAVIF_LOCAL_ZLIBPNG=1 `
-          -DBUILD_SHARED_LIBS=OFF `
-          -DAVIF_BUILD_APPS=ON
+          -DAVIF_LOCAL_JPEG=0 `
+          -DAVIF_LOCAL_ZLIBPNG=0 `
+          -DBUILD_SHARED_LIBS=ON `
+          -DAVIF_BUILD_APPS=OFF
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: |
