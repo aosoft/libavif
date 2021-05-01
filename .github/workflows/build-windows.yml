@@ -1,7 +1,7 @@
 name: Windows Build
 
 on:
-  [push, workflow_dispatch]
+  workflow_dispatch
   
 jobs:
   build:
@@ -77,7 +77,7 @@ jobs:
           -DAVIF_LOCAL_ZLIBPNG=1 `
           -DBUILD_SHARED_LIBS=OFF `
           -DAVIF_BUILD_APPS=ON
-        msbuild /m /p:Configuration="Release" /v:d libavif.sln
+        msbuild /m /p:Configuration="Release" libavif.sln
     - name: Build (shared lib)
       run: |
         mkdir build-dll
@@ -99,27 +99,10 @@ jobs:
           -DAVIF_LOCAL_ZLIBPNG=1 `
           -DBUILD_SHARED_LIBS=ON `
           -DAVIF_BUILD_APPS=OFF
-        msbuild /m /p:Configuration="Release" /v:d libavif.sln
+        msbuild /m /p:Configuration="Release" libavif.sln
     - uses: actions/upload-artifact@v2
       with:
          name: build
          path: |
            build/Release
            build-dll/Release
-    #- uses: actions/upload-artifact@v2
-    #  if: always()
-    #  with:
-    #     name: build_ext
-    #     path: build/ext
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-         name: ext
-         path: ext
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-         name: log
-         path: |
-           build/**/*.log
-           build/**/*.txt
