@@ -116,8 +116,8 @@ jobs:
         mkdir artifact\lib
         copy build\${{ env.CONFIGURATION }}\*.exe artifact\.
         copy build\${{ env.CONFIGURATION }}\avif.lib artifact\lib\avif_static.lib
-        copy build\${{ env.CONFIGURATION }}\*.dll artifact\lib\.
-        copy build\${{ env.CONFIGURATION }}\*.lib artifact\lib\.
+        copy build-dll\${{ env.CONFIGURATION }}\*.dll artifact\lib\.
+        copy build-dll\${{ env.CONFIGURATION }}\*.lib artifact\lib\.
         robocopy include artifact\include
         robocopy examples artifact\examples
     - uses: actions/upload-artifact@v2
