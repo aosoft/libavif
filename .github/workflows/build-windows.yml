@@ -7,6 +7,7 @@ jobs:
   build:
     runs-on: windows-latest
     env:
+      CONFIGURATION: Release
       CMAKE_OPTIONS: |
           -DAVIF_CODEC_AOM=OFF `
           -DAVIF_LOCAL_AOM=ON `
@@ -81,8 +82,8 @@ jobs:
         git checkout 2871589
         mkdir build
         cd build
-        cmake -G "Visual Studio 16 2019" -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release ..
-        msbuild /m /p:Configuration="Release" YUV.sln
+        cmake -G "Visual Studio 16 2019" -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=${{ env.CONFIGURATION }} ..
+        msbuild /m /p:Configuration="${{ env.CONFIGURATION }}" YUV.sln
         cd ../..
     - name: Get libjpeg / zlibpng
       run: |
@@ -99,7 +100,7 @@ jobs:
            ${{ env.CMAKE_OPTIONS }} `
           -DBUILD_SHARED_LIBS=OFF `
           -DAVIF_BUILD_APPS=ON
-        msbuild /m /p:Configuration="Release" libavif.sln
+        msbuild /m /p:Configuration="${{ env.CONFIGURATION }}" libavif.sln
     - name: Build (shared lib)
       run: |
         mkdir build-dll
@@ -109,10 +110,17 @@ jobs:
            ${{ env.CMAKE_OPTIONS }} `
           -DBUILD_SHARED_LIBS=ON `
           -DAVIF_BUILD_APPS=OFF
-        msbuild /m /p:Configuration="Release" libavif.sln
+        msbuild /m /p:Configuration="${{ env.CONFIGURATION }}" libavif.sln
+    - name: Copy artifact
+      run: |
+        mkdir artifact\lib
+        copy build\${{ env.CONFIGURATION }}\*.exe artifact\.
+        copy build\${{ env.CONFIGURATION }}\avif.lib artifact\lib\avif_static.lib
+        copy build\${{ env.CONFIGURATION }}\*.dll artifact\lib\.
+        copy build\${{ env.CONFIGURATION }}\*.lib artifact\lib\.
+        robocopy include artifact\include
+        robocopy examples artifact\examples
     - uses: actions/upload-artifact@v2
       with:
-         name: build
-         path: |
-           build/Release
-           build-dll/Release
+         name: libavif_vs2019_x64_${{ env.CONFIGURATION }}_${{ env.GITHUB_SHA }}
+         path: artifact
