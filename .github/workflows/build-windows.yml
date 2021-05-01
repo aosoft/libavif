@@ -41,7 +41,6 @@ jobs:
         #.\aom.cmd
         #.\dav1d.cmd
         #.\rav1e.cmd
-        .\libyuv.cmd
         .\libjpeg.cmd
         .\zlibpng.cmd
         cd ..
