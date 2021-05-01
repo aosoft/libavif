@@ -41,7 +41,8 @@ jobs:
         #.\aom.cmd
         #.\dav1d.cmd
         #.\rav1e.cmd
-        .\libgav1.cmd
+        #.\libgav1.cmd
+        .\svt.cmd
         .\libjpeg.cmd
         .\zlibpng.cmd
         cd ..
@@ -68,8 +69,10 @@ jobs:
           -DAVIF_LOCAL_DAV1D=ON `
           -DAVIF_CODEC_RAV1E=OFF `
           -DAVIF_LOCAL_RAV1E=ON `
-          -DAVIF_CODEC_LIBGAV1=ON `
+          -DAVIF_CODEC_LIBGAV1=OFF `
           -DAVIF_LOCAL_LIBGAV1=ON `
+          -DAVIF_CODEC_SVT=ON `
+          -DAVIF_LOCAL_SVT=ON `
           -DAVIF_LOCAL_YUV=1 `
           -DAVIF_LOCAL_JPEG=1 `
           -DAVIF_LOCAL_ZLIBPNG=1 `
