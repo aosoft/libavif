@@ -45,6 +45,17 @@ jobs:
         .\libjpeg.cmd
         .\zlibpng.cmd
         cd ..
+    - name: Build libvyuv
+      run: |
+        cd ext
+        git clone --single-branch https://chromium.googlesource.com/libyuv/libyuv
+        cd libyuv
+        git checkout 2871589
+        mkdir build
+        cd build
+        cmake -G "Visual Studio 16 2019" -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release ..
+        msbuild /m /p:Configuration="Release" YUV.sln
+        cd ../..
     - name: Configure with CMake
       run: |
         mkdir build
