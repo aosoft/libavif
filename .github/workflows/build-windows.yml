@@ -68,8 +68,8 @@ jobs:
           -DAVIF_CODEC_RAV1E=OFF `
           -DAVIF_LOCAL_RAV1E=ON `
           -DAVIF_LOCAL_YUV=1 `
-          -DAVIF_LOCAL_JPEG=0 `
-          -DAVIF_LOCAL_ZLIBPNG=0 `
+          -DAVIF_LOCAL_JPEG=1 `
+          -DAVIF_LOCAL_ZLIBPNG=1 `
           -DBUILD_SHARED_LIBS=OFF `
           -DAVIF_BUILD_APPS=ON
     - name: Build
