@@ -9,7 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    #- uses: microsoft/setup-msbuild@v1
     - uses: ilammy/msvc-dev-cmd@v1
     - uses: ilammy/setup-nasm@v1
     - uses: seanmiddleditch/gha-setup-ninja@master
@@ -38,10 +37,10 @@ jobs:
     - name: Build libraries
       run: |
         cd ext
-        #.\aom.cmd
+        .\aom.cmd
         #.\dav1d.cmd
-        #.\rav1e.cmd
-        #.\libgav1.cmd
+        .\rav1e.cmd
+        .\libgav1.cmd
         .\svt.cmd
         .\libjpeg.cmd
         .\zlibpng.cmd
@@ -57,19 +56,19 @@ jobs:
         cmake -G "Visual Studio 16 2019" -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release ..
         msbuild /m /p:Configuration="Release" YUV.sln
         cd ../..
-    - name: Configure with CMake
+    - name: Build (static lib / app)
       run: |
         mkdir build
         cd build
         cmake --version
         cmake .. `
-          -DAVIF_CODEC_AOM=OFF `
+          -DAVIF_CODEC_AOM=ON `
           -DAVIF_LOCAL_AOM=ON `
           -DAVIF_CODEC_DAV1D=OFF `
           -DAVIF_LOCAL_DAV1D=ON `
-          -DAVIF_CODEC_RAV1E=OFF `
+          -DAVIF_CODEC_RAV1E=ON `
           -DAVIF_LOCAL_RAV1E=ON `
-          -DAVIF_CODEC_LIBGAV1=OFF `
+          -DAVIF_CODEC_LIBGAV1=ON `
           -DAVIF_LOCAL_LIBGAV1=ON `
           -DAVIF_CODEC_SVT=ON `
           -DAVIF_LOCAL_SVT=ON `
@@ -78,17 +77,35 @@ jobs:
           -DAVIF_LOCAL_ZLIBPNG=1 `
           -DBUILD_SHARED_LIBS=OFF `
           -DAVIF_BUILD_APPS=ON
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
+        msbuild /m /p:Configuration="Release" /v:d libavif.sln
+    - name: Build (shared lib)
       run: |
-        cd build
-        pwd
+        mkdir build-dll
+        cd build-dll
+        cmake --version
+        cmake .. `
+          -DAVIF_CODEC_AOM=ON `
+          -DAVIF_LOCAL_AOM=ON `
+          -DAVIF_CODEC_DAV1D=OFF `
+          -DAVIF_LOCAL_DAV1D=ON `
+          -DAVIF_CODEC_RAV1E=ON `
+          -DAVIF_LOCAL_RAV1E=ON `
+          -DAVIF_CODEC_LIBGAV1=ON `
+          -DAVIF_LOCAL_LIBGAV1=ON `
+          -DAVIF_CODEC_SVT=ON `
+          -DAVIF_LOCAL_SVT=ON `
+          -DAVIF_LOCAL_YUV=1 `
+          -DAVIF_LOCAL_JPEG=1 `
+          -DAVIF_LOCAL_ZLIBPNG=1 `
+          -DBUILD_SHARED_LIBS=ON `
+          -DAVIF_BUILD_APPS=OFF
         msbuild /m /p:Configuration="Release" /v:d libavif.sln
     - uses: actions/upload-artifact@v2
-      if: always()
       with:
          name: build
-         path: build/Release
+         path: |
+           build/Release
+           build-dll/Release
     #- uses: actions/upload-artifact@v2
     #  if: always()
     #  with:
