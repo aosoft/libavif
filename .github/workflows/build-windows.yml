@@ -1,12 +1,26 @@
 name: Windows Build
 
 on:
-  workflow_dispatch
+  [push, workflow_dispatch]
   
 jobs:
   build:
     runs-on: windows-latest
-
+    env:
+      CMAKE_OPTIONS: |
+          -DAVIF_CODEC_AOM=OFF `
+          -DAVIF_LOCAL_AOM=ON `
+          -DAVIF_CODEC_DAV1D=OFF `
+          -DAVIF_LOCAL_DAV1D=ON `
+          -DAVIF_CODEC_RAV1E=OFF `
+          -DAVIF_LOCAL_RAV1E=ON `
+          -DAVIF_CODEC_LIBGAV1=ON `
+          -DAVIF_LOCAL_LIBGAV1=ON `
+          -DAVIF_CODEC_SVT=ON `
+          -DAVIF_LOCAL_SVT=ON `
+          -DAVIF_LOCAL_YUV=1 `
+          -DAVIF_LOCAL_JPEG=1 `
+          -DAVIF_LOCAL_ZLIBPNG=1
     steps:
     - uses: actions/checkout@v2
     - uses: ilammy/msvc-dev-cmd@v1
@@ -37,9 +51,9 @@ jobs:
     - name: Build libraries
       run: |
         cd ext
-        .\aom.cmd
+        #.\aom.cmd
         #.\dav1d.cmd
-        .\rav1e.cmd
+        #.\rav1e.cmd
         .\libgav1.cmd
         .\svt.cmd
         .\libjpeg.cmd
@@ -62,19 +76,7 @@ jobs:
         cd build
         cmake --version
         cmake .. `
-          -DAVIF_CODEC_AOM=ON `
-          -DAVIF_LOCAL_AOM=ON `
-          -DAVIF_CODEC_DAV1D=OFF `
-          -DAVIF_LOCAL_DAV1D=ON `
-          -DAVIF_CODEC_RAV1E=ON `
-          -DAVIF_LOCAL_RAV1E=ON `
-          -DAVIF_CODEC_LIBGAV1=ON `
-          -DAVIF_LOCAL_LIBGAV1=ON `
-          -DAVIF_CODEC_SVT=ON `
-          -DAVIF_LOCAL_SVT=ON `
-          -DAVIF_LOCAL_YUV=1 `
-          -DAVIF_LOCAL_JPEG=1 `
-          -DAVIF_LOCAL_ZLIBPNG=1 `
+           ${{ env.CMAKE_OPTIONS }}`
           -DBUILD_SHARED_LIBS=OFF `
           -DAVIF_BUILD_APPS=ON
         msbuild /m /p:Configuration="Release" libavif.sln
@@ -84,19 +86,7 @@ jobs:
         cd build-dll
         cmake --version
         cmake .. `
-          -DAVIF_CODEC_AOM=ON `
-          -DAVIF_LOCAL_AOM=ON `
-          -DAVIF_CODEC_DAV1D=OFF `
-          -DAVIF_LOCAL_DAV1D=ON `
-          -DAVIF_CODEC_RAV1E=ON `
-          -DAVIF_LOCAL_RAV1E=ON `
-          -DAVIF_CODEC_LIBGAV1=ON `
-          -DAVIF_LOCAL_LIBGAV1=ON `
-          -DAVIF_CODEC_SVT=ON `
-          -DAVIF_LOCAL_SVT=ON `
-          -DAVIF_LOCAL_YUV=1 `
-          -DAVIF_LOCAL_JPEG=1 `
-          -DAVIF_LOCAL_ZLIBPNG=1 `
+           ${{ env.CMAKE_OPTIONS }}`
           -DBUILD_SHARED_LIBS=ON `
           -DAVIF_BUILD_APPS=OFF
         msbuild /m /p:Configuration="Release" libavif.sln
