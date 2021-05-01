@@ -122,6 +122,7 @@ jobs:
         copy build-dll\${{ env.CONFIGURATION }}\*.dll artifact\lib\.
         copy build-dll\${{ env.CONFIGURATION }}\*.lib artifact\lib\.
     - uses: actions/upload-artifact@v2
+      if: always()
       with:
          name: libavif_vs2019_x64_${{ env.CONFIGURATION }}_${{ env.GITHUB_SHA }}
          path: artifact
