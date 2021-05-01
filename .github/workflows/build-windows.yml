@@ -76,7 +76,7 @@ jobs:
         cd build
         cmake --version
         cmake .. `
-           ${{ env.CMAKE_OPTIONS }}
+           ${{ env.CMAKE_OPTIONS }} `
           -DBUILD_SHARED_LIBS=OFF `
           -DAVIF_BUILD_APPS=ON
         msbuild /m /p:Configuration="Release" libavif.sln
@@ -86,7 +86,7 @@ jobs:
         cd build-dll
         cmake --version
         cmake .. `
-           ${{ env.CMAKE_OPTIONS }}
+           ${{ env.CMAKE_OPTIONS }} `
           -DBUILD_SHARED_LIBS=ON `
           -DAVIF_BUILD_APPS=OFF
         msbuild /m /p:Configuration="Release" libavif.sln
