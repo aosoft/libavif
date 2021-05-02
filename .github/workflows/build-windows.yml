@@ -8,18 +8,18 @@ jobs:
     runs-on: windows-latest
     env:
       CONFIGURATION: Release
-      SUPPORT_AOM: OFF
+      SUPPORT_AOM: ON
       SUPPORT_DAV1D: ON
-      SUPPORT_RAV1E: OFF
-      SUPPORT_LIBGAV1: OFF
-      SUPPORT_SVT: OFF
+      SUPPORT_RAV1E: ON
+      SUPPORT_LIBGAV1: ON
+      SUPPORT_SVT: ON
       SUPPORT_YUV: ON
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
     - uses: ilammy/msvc-dev-cmd@v1
     - uses: ilammy/setup-nasm@v1
-    - uses: seanmiddleditch/gha-setup-ninja@master
+    - uses: seanmiddleditch/gha-setup-ninja@v3
     #- name: Setup Visual Studio 2019
     #  run: |
     #    cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat`" && set > %temp%\vcvars.txt"
@@ -36,15 +36,6 @@ jobs:
         rustup default stable-x86_64-pc-windows-msvc
         rustc -vV
         cargo -vV
-    - name: Setup Meson
-      if: ${{ env.SUPPORT_DAV1D == 'ON' }}
-      run: |
-        git clone -b 0.57.2 --depth 1 https://github.com/mesonbuild/meson.git
-        $meson=$pwd.ToString() + "\meson"
-        $bat=$meson + "\meson.bat"
-        echo "python $meson\meson.py %*" | Out-File -FilePath $bat -Encoding utf-8
-        $path2=$meson + ";"+$env:Path
-        echo "Path=$path2" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8
     - name: Check
       run: |
         $env:path
