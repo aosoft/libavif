@@ -4,16 +4,16 @@ on:
   [push, workflow_dispatch]
   
 jobs:
+  env:
+    CONFIGURATION: Release
+    SUPPORT_AOM: OFF
+    SUPPORT_DAV1D: OFF
+    SUPPORT_RAV1E: OFF
+    SUPPORT_LIBGAV1: OFF
+    SUPPORT_SVT: OFF
+    SUPPORT_YUV: ON
   build:
     runs-on: windows-latest
-    env:
-      CONFIGURATION: Release
-      SUPPORT_AOM: OFF
-      SUPPORT_DAV1D: OFF
-      SUPPORT_RAV1E: OFF
-      SUPPORT_LIBGAV1: OFF
-      SUPPORT_SVT: OFF
-      SUPPORT_YUV: ON
     env:
       CMAKE_OPTIONS: |
           -DAVIF_CODEC_AOM=${{ env.SUPPORT_AOM }} `
