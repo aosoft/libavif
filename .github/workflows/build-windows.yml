@@ -16,6 +16,7 @@ jobs:
       SUPPORT_YUV: ON
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
     - uses: ilammy/msvc-dev-cmd@v1
     - uses: ilammy/setup-nasm@v1
     - uses: seanmiddleditch/gha-setup-ninja@master
@@ -37,7 +38,11 @@ jobs:
         cargo -vV
     - name: Setup Meson
       if: ${{ env.SUPPORT_DAV1D == 'ON' }}
-      run: pip3 install --user meson
+      run: |
+        git clone -b 0.57.2 --depth 1 https://github.com/mesonbuild/meson.git
+        $meson=$pwd + "\meson"
+        echo "python $meson\meson.py %*" | Out-File -FilePath $meson + "\meson.bat"
+        $env:Path=$meson + ";"+$env:Path
     - name: Check
       run: |
         $env:path
