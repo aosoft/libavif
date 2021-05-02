@@ -4,27 +4,27 @@ on:
   workflow_dispatch:
     inputs:
       aom:
-        descrption: "Enable aom (ON or OFF)"
+        description: "Enable aom (ON or OFF)"
         required: true
         default: "ON"
       dav1d:
-        descrption: "Enable dav1d (ON or OFF)"
+        description: "Enable dav1d (ON or OFF)"
         required: true
         default: "ON"
       rav1e:
-        descrption: "Enable rav1e (ON or OFF)"
+        description: "Enable rav1e (ON or OFF)"
         required: true
         default: "ON"
       libgav1:
-        descrption: "Enable libgav1 (ON or OFF)"
+        description: "Enable libgav1 (ON or OFF)"
         required: true
         default: "ON"
       svt:
-        descrption: "Enable SVT-AV1 (ON or OFF)"
+        description: "Enable SVT-AV1 (ON or OFF)"
         required: true
         default: "ON"
       libyuv:
-        descrption: "Enable libyuv (ON or OFF)"
+        description: "Enable libyuv (ON or OFF)"
         required: true
         default: "ON"
   
