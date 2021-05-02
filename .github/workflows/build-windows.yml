@@ -114,16 +114,16 @@ jobs:
         msbuild /m /p:Configuration="${{ env.CONFIGURATION }}" libavif.sln
     - name: Copy artifact
       run: |
-        mkdir artifact
-        #robocopy include artifact\include /s
-        #robocopy examples artifact\examples /s
+        mkdir artifact\include
+        xcopy include artifact\include /s
+        mkdir artifact\examples
+        xcopy examples artifact\examples /s
         mkdir artifact\lib
         copy build\${{ env.CONFIGURATION }}\*.exe artifact\.
         copy build\${{ env.CONFIGURATION }}\avif.lib artifact\lib\avif_static.lib
         copy build-dll\${{ env.CONFIGURATION }}\*.dll artifact\lib\.
         copy build-dll\${{ env.CONFIGURATION }}\*.lib artifact\lib\.
     - uses: actions/upload-artifact@v2
-      if: always()
       with:
          name: libavif_vs2019_x64_${{ env.CONFIGURATION }}_${{ env.GITHUB_SHA }}
          path: artifact
