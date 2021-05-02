@@ -9,7 +9,7 @@ jobs:
     env:
       CONFIGURATION: Release
       SUPPORT_AOM: OFF
-      SUPPORT_DAV1D: OFF
+      SUPPORT_DAV1D: ON
       SUPPORT_RAV1E: OFF
       SUPPORT_LIBGAV1: OFF
       SUPPORT_SVT: OFF
@@ -30,10 +30,14 @@ jobs:
     #      }
     #    }
     - name: Setup Rust
+      if: ${{ env.SUPPORT_RAV1E == 'ON' }}
       run: |
         rustup default stable-x86_64-pc-windows-msvc
         rustc -vV
         cargo -vV
+    - name: Setup Meson
+      if: ${{ env.SUPPORT_DAV1D == 'ON' }}
+      run: pip3 install --user meson
     - name: Check
       run: |
         $env:path
@@ -90,7 +94,7 @@ jobs:
         .\libjpeg.cmd
         .\zlibpng.cmd
         cd ..
-    - name: CMake Option
+    - name: CMake Options
       run: |
         $value="-DAVIF_CODEC_AOM=${{ env.SUPPORT_AOM }} " + `
           "-DAVIF_LOCAL_AOM=ON " + `
