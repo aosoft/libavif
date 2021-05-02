@@ -40,7 +40,7 @@ jobs:
       if: ${{ env.SUPPORT_DAV1D == 'ON' }}
       run: |
         git clone -b 0.57.2 --depth 1 https://github.com/mesonbuild/meson.git
-        $meson=$pwd + "\meson"
+        $meson=$pwd.ToString() + "\meson"
         echo "python $meson\meson.py %*" | Out-File -FilePath $meson + "\meson.bat"
         $env:Path=$meson + ";"+$env:Path
     - name: Check
