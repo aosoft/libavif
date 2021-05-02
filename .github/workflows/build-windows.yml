@@ -43,7 +43,8 @@ jobs:
         $meson=$pwd.ToString() + "\meson"
         $bat=$meson + "\meson.bat"
         echo "python $meson\meson.py %*" | Out-File -FilePath $bat -Encoding utf-8
-        $env:Path=$meson + ";"+$env:Path
+        $path2=$meson + ";"+$env:Path
+        echo "Path=$path2" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8
         meson --version
     - name: Check
       run: |
