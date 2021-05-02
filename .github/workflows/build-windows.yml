@@ -8,18 +8,24 @@ jobs:
     runs-on: windows-latest
     env:
       CONFIGURATION: Release
+      SUPPORT_AOM: OFF
+      SUPPORT_DAV1D: OFF
+      SUPPORT_RAV1E: OFF
+      SUPPORT_LIBGAV1: OFF
+      SUPPORT_SVT: OFF
+      SUPPORT_YUV: ON
       CMAKE_OPTIONS: |
-          -DAVIF_CODEC_AOM=OFF `
+          -DAVIF_CODEC_AOM=${{ env.SUPPORT_AOM }} `
           -DAVIF_LOCAL_AOM=ON `
-          -DAVIF_CODEC_DAV1D=OFF `
+          -DAVIF_CODEC_DAV1D=${{ env.SUPPORT_DAV1D }} `
           -DAVIF_LOCAL_DAV1D=ON `
-          -DAVIF_CODEC_RAV1E=OFF `
+          -DAVIF_CODEC_RAV1E=${{ env.SUPPORT_RAV1E }} `
           -DAVIF_LOCAL_RAV1E=ON `
-          -DAVIF_CODEC_LIBGAV1=OFF `
+          -DAVIF_CODEC_LIBGAV1=${{ env.SUPPORT_LIBGAV1 }} `
           -DAVIF_LOCAL_LIBGAV1=ON `
-          -DAVIF_CODEC_SVT=OFF `
+          -DAVIF_CODEC_SVT=${{ env.SUPPORT_SVT }} `
           -DAVIF_LOCAL_SVT=ON `
-          -DAVIF_LOCAL_YUV=ON `
+          -DAVIF_LOCAL_YUV=${{ env.SUPPORT_YUV }} `
           -DAVIF_LOCAL_JPEG=ON `
           -DAVIF_LOCAL_ZLIBPNG=ON `
     steps:
@@ -47,35 +53,41 @@ jobs:
         $env:path
         ninja --version
         nasm --version
-        echo SHA=${{ env.GITHUB_SHA }}
+        echo SHA=${{ process.env.GITHUB_SHA }}
     - name: Get submodules
       run: git submodule update --init --recursive
     - name: Build aom
+      if: ${{ env.SUPPORT_AOM == 'ON' }}
       run: |
         cd ext
-        #.\aom.cmd
+        .\aom.cmd
         cd ..
     - name: Build dav1d
+      if: ${{ env.SUPPORT_DAV1D == 'ON' }}
       run: |
         cd ext
-        #.\dav1d.cmd
+        .\dav1d.cmd
         cd ..
     - name: Build rav1e
+      if: ${{ env.SUPPORT_RAV1E == 'ON' }}
       run: |
         cd ext
-        #.\rav1e.cmd
+        .\rav1e.cmd
         cd ..
     - name: Build libgav1
+      if: ${{ env.SUPPORT_LIBGAV1 == 'ON' }}
       run: |
         cd ext
-        #.\libgav1.cmd
+        .\libgav1.cmd
         cd ..
     - name: Build svt
+      if: ${{ env.SUPPORT_SVT == 'ON' }}
       run: |
         cd ext
-        #.\svt.cmd
+        .\svt.cmd
         cd ..
     - name: Build libvyuv
+      if: ${{ env.SUPPORT_YUV == 'ON' }}
       run: |
         cd ext
         git clone --single-branch https://chromium.googlesource.com/libyuv/libyuv
@@ -125,5 +137,5 @@ jobs:
         copy build-dll\${{ env.CONFIGURATION }}\*.lib artifact\lib\.
     - uses: actions/upload-artifact@v2
       with:
-         name: libavif_vs2019_x64_${{ env.CONFIGURATION }}_${{ env.GITHUB_SHA }}
+         name: libavif_vs2019_x64_${{ env.CONFIGURATION }}_${{ process.env.GITHUB_SHA }}
          path: artifact
