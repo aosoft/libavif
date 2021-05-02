@@ -14,6 +14,7 @@ jobs:
       SUPPORT_LIBGAV1: OFF
       SUPPORT_SVT: OFF
       SUPPORT_YUV: ON
+    env:
       CMAKE_OPTIONS: |
           -DAVIF_CODEC_AOM=${{ env.SUPPORT_AOM }} `
           -DAVIF_LOCAL_AOM=ON `
