@@ -44,6 +44,7 @@ jobs:
         $bat=$meson + "\meson.bat"
         echo "python $meson\meson.py %*" | Out-File -FilePath $bat -Encoding utf-8
         $env:Path=$meson + ";"+$env:Path
+        meson --version
     - name: Check
       run: |
         $env:path
