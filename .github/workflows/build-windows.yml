@@ -76,7 +76,7 @@ jobs:
         git checkout 2871589
         mkdir build
         cd build
-        cmake -G -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=${{ env.CONFIGURATION }} ..
+        cmake -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=${{ env.CONFIGURATION }} ..
         msbuild /m /p:Configuration="${{ env.CONFIGURATION }}" YUV.sln
     - name: Get libjpeg / zlibpng
       run: |
