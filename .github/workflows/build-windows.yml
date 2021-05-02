@@ -39,7 +39,7 @@ jobs:
         $env:path
         ninja --version
         nasm --version
-        echo SHA=${{ process.env.GITHUB_SHA }}
+        echo SHA=${{ env.GITHUB_SHA }}
     - name: Get submodules
       run: git submodule update --init --recursive
     - name: Build aom
