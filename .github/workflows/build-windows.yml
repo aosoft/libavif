@@ -2,16 +2,17 @@ name: Windows Build
 
 on:
   [push, workflow_dispatch]
-  
+
+env:
+  CONFIGURATION: Release
+  SUPPORT_AOM: OFF
+  SUPPORT_DAV1D: OFF
+  SUPPORT_RAV1E: OFF
+  SUPPORT_LIBGAV1: OFF
+  SUPPORT_SVT: OFF
+  SUPPORT_YUV: ON
+
 jobs:
-  env:
-    CONFIGURATION: Release
-    SUPPORT_AOM: OFF
-    SUPPORT_DAV1D: OFF
-    SUPPORT_RAV1E: OFF
-    SUPPORT_LIBGAV1: OFF
-    SUPPORT_SVT: OFF
-    SUPPORT_YUV: ON
   build:
     runs-on: windows-latest
     env:
@@ -105,6 +106,8 @@ jobs:
         .\libjpeg.cmd
         .\zlibpng.cmd
         cd ..
+    - name: CMake Option
+      run: |
     - name: Build (static lib / app)
       run: |
         mkdir build
