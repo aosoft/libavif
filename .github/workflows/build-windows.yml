@@ -58,31 +58,32 @@ jobs:
       run: |
         cd ext
         .\aom.cmd
-        cd ..
     - name: Build dav1d
       if: ${{ env.SUPPORT_DAV1D == 'ON' }}
       run: |
         cd ext
-        .\dav1d.cmd
-        cd ..
+        git clone -b 0.57.2 --depth 1 https://github.com/mesonbuild/meson.git
+        git clone -b 0.8.2 --depth 1 https://code.videolan.org/videolan/dav1d.git
+        cd dav1d
+        mkdir build
+        cd build
+        python ..\..\meson\meson.py --default-library=static --buildtype release ..
+        ninja
     - name: Build rav1e
       if: ${{ env.SUPPORT_RAV1E == 'ON' }}
       run: |
         cd ext
         .\rav1e.cmd
-        cd ..
     - name: Build libgav1
       if: ${{ env.SUPPORT_LIBGAV1 == 'ON' }}
       run: |
         cd ext
         .\libgav1.cmd
-        cd ..
     - name: Build svt
       if: ${{ env.SUPPORT_SVT == 'ON' }}
       run: |
         cd ext
         .\svt.cmd
-        cd ..
     - name: Build libvyuv
       if: ${{ env.SUPPORT_YUV == 'ON' }}
       run: |
@@ -94,13 +95,11 @@ jobs:
         cd build
         cmake -G "Visual Studio 16 2019" -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=${{ env.CONFIGURATION }} ..
         msbuild /m /p:Configuration="${{ env.CONFIGURATION }}" YUV.sln
-        cd ../..
     - name: Get libjpeg / zlibpng
       run: |
         cd ext
         .\libjpeg.cmd
         .\zlibpng.cmd
-        cd ..
     - name: CMake Options
       run: |
         $value="-DAVIF_CODEC_AOM=${{ env.SUPPORT_AOM }} " + `
