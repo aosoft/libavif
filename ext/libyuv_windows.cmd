@@ -15,6 +15,7 @@ git checkout 2871589
 mkdir build
 cd build
 
-cmake -G Ninja -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release ..
-ninja yuv
+cmake -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release ..
+msbuild /m /p:Configuration="Release" YUV.sln
+xcopy /y Release\yuv.lib .
 cd ../..
