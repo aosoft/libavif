@@ -186,6 +186,7 @@ jobs:
          path: artifact
     - uses: actions/upload-artifact@v2
       if: ${{ runner.os != 'Windows' }}
+      with:
          name: libavif_${{ runner.os }}_${{ env.CONFIGURATION }}_${{ env.SHORT_SHA }}
          path: |
            build/Release
