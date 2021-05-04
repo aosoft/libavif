@@ -74,7 +74,7 @@ jobs:
         $ssha=$env:GITHUB_SHA.Substring(0, 8)
         echo "SHORT_SHA=$ssha" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8
     - name: Setup Rust
-      if: ${{ env.SUPPORT_RAV1E == 'ON' && runner.os != 'Windows' }}
+      if: ${{ env.SUPPORT_RAV1E == 'ON' && runner.os == 'Windows' }}
       run: |
         rustup default stable-x86_64-pc-windows-msvc
         rustc -vV
