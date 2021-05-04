@@ -6,7 +6,7 @@ on:
       platforms:
         description: "Target platforms"
         required: true
-        default: "ubuntu-latest, macos-latest, windows-latest"
+        default: ""
       aom:
         description: "Enable aom (ON or OFF)"
         required: true
@@ -34,11 +34,12 @@ on:
   
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    #runs-on: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: [ubuntu-latest, macos-latest]
     strategy:
       fail-fast: false
       matrix:
-        os: [${{ github.event.inputs.platforms }}]
+        os: ${{ github.event.inputs.platforms }}
         include:
           - os: ubuntu-latest
             shell: "bash"
