@@ -34,12 +34,12 @@ on:
   
 jobs:
   build:
-    #runs-on: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ github.event.inputs.platforms }}
+        #os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
         include:
           - os: ubuntu-latest
             shell: "bash"
