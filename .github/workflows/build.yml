@@ -3,10 +3,6 @@ name: build
 on:
   workflow_dispatch:
     inputs:
-      platforms:
-        description: "Target platforms"
-        required: true
-        default: ""
       aom:
         description: "Enable aom (ON or OFF)"
         required: true
@@ -47,9 +43,9 @@ jobs:
           - os: macos-latest
             shell: "bash"
             cmd_suffix: ""
-          - os: windows-latest
-            shell: ""
-            cmd_suffix: "_windows"
+          #- os: windows-latest
+          #  shell: ""
+          #  cmd_suffix: "_windows"
     env:
       CONFIGURATION: Release
       EXEC_SHELL: ${{ matrix.shell }}
@@ -69,6 +65,11 @@ jobs:
     - uses: ilammy/setup-nasm@v1
     - uses: seanmiddleditch/gha-setup-ninja@v3
     - name: Short SHA
+      if: ${{ runner.os != 'Windows' }}
+      run: |
+        echo "SHORT_SHA=$env:GITHUB_SHA" > $Env:GITHUB_ENV
+    - name: Short SHA (Windows)
+      if: ${{ runner.os == 'Windows' }}
       run: |
         $ssha=$env:GITHUB_SHA.Substring(0, 8)
         echo "SHORT_SHA=$ssha" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8
